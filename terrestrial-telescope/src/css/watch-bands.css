@@ -120,11 +120,20 @@
 }
 
 .color-dot {
-    width: 20px;
-    height: 20px;
+    width: 24px;
+    height: 24px;
     border-radius: 50%;
-    border: 1px solid #ddd;
     cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.color-dot:hover {
+    transform: scale(1.1);
+}
+
+.color-dot.selected {
+    transform: scale(1.1);
+    box-shadow: 0 0 0 2px currentColor;
 }
 
 .color-dot.black { background-color: #000; }
@@ -159,16 +168,38 @@
 }
 
 .shipping-icon {
-    width: 32px;
-    height: 32px;
     margin-bottom: 16px;
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2L2 7v10l10 5 10-5V7L12 2z"/></svg>');
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.fill-current {
+    fill: currentColor;
+}
+
+.w-auto {
+    width: auto;
+}
+
+.max-w-full {
+    max-width: 100%;
+}
+
+.h-full {
+    height: 100%;
+}
+
+.stroke-0 {
+    stroke-width: 0;
 }
 
 .shipping-text {
     font-size: 1.1rem;
     color: #333;
     text-align: center;
+    margin: 0;
 }
 
 .recently-viewed-section {
