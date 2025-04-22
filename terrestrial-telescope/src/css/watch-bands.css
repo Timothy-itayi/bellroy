@@ -115,25 +115,33 @@
 
 .color-options {
     display: flex;
-    gap: 8px;
+    gap: 12px;
     margin-bottom: 12px;
 }
 
-.color-dot {
-    width: 24px;
-    height: 24px;
+.color-button {
+    width: 20px;
+    height: 20px;
     border-radius: 50%;
     cursor: pointer;
     transition: all 0.2s ease;
+    padding: 0;
+    margin: 0;
+    border: 2px solid transparent;
+    outline: none;
+    appearance: none;
+    -webkit-appearance: none;
+    display: block;
+    background-clip: content-box;
 }
 
-.color-dot:hover {
-    transform: scale(1.1);
+.color-button:hover {
+    border-width: 3px;
 }
 
-.color-dot.selected {
-    transform: scale(1.1);
-    box-shadow: 0 0 0 2px currentColor;
+.color-button.selected {
+    border-width: 4px;
+    filter: brightness(0.95);
 }
 
 .color-dot.black { background-color: #000; }
