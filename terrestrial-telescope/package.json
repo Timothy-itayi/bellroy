@@ -11,6 +11,7 @@
   "dependencies": {
     "astro": "^5.7.4",
     "astro-integration-elm": "^0.0.10",
-    "elm": "^0.19.1-6"
+    "elm": "^0.19.1-6",
+    "elmstronaut": "^0.1.1"
   }
 }
