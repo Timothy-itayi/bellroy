@@ -26,16 +26,30 @@ main =
 -- MODEL
 
 
+type alias Product =
+    { id : Int
+    , name : String
+    , price : String
+    , watchType : String
+    , isBestseller : Bool
+    , imageUrl : String
+    }
+
+
 type alias Model =
     { sortOption : String
-    , showingPopup : Bool
+    , products : List Product
     }
 
 
 init : () -> ( Model, Cmd Msg )
 init _ =
     ( { sortOption = "Most popular"
-      , showingPopup = True
+      , products =
+            [ Product 1 "Classic Watch Strap" "$69 – $119" "Apple Watch" True "/assets/0.avif"
+            , Product 2 "Venture Watch Strap" "$49 – $85" "Apple Watch" True "/assets/0 (1).avif"
+            , Product 4 "Watch Strap – Second Edition" "$59 – $99" "Apple Watch" False "/assets/0 (2).avif"
+            ]
       }
     , Cmd.none
     )
@@ -47,8 +61,6 @@ init _ =
 
 type Msg
     = SetSortOption String
-    | TogglePopup
-    | ClosePopup
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -56,12 +68,6 @@ update msg model =
     case msg of
         SetSortOption option ->
             ( { model | sortOption = option }, Cmd.none )
-
-        TogglePopup ->
-            ( { model | showingPopup = not model.showingPopup }, Cmd.none )
-
-        ClosePopup ->
-            ( { model | showingPopup = False }, Cmd.none )
 
 
 
@@ -93,66 +99,40 @@ header =
 productGrid : Model -> Html Msg
 productGrid model =
     div [ class "product-grid" ]
-        [ productCard "Classic Watch Strap" "$69 – $119" "Apple Watch" True
-        , productCard "Venture Watch Strap" "$49 – $85" "Apple Watch" True
+        [ viewProduct (List.head model.products |> Maybe.withDefault defaultProduct)
+        , viewProduct (List.head (List.drop 1 model.products) |> Maybe.withDefault defaultProduct)
         , freeShippingCard
-        , secondEditionCard model
-        , productCard "Pixel Watch Strap – Google Edition" "$109" "Pixel Watch 3" False
+        , viewProduct (List.head (List.drop 2 model.products) |> Maybe.withDefault defaultProduct)
         ]
 
 
-productCard : String -> String -> String -> Bool -> Html Msg
-productCard name price watchType isBestseller =
-    div [ class "product-card" ]
-        [ if isBestseller then
+viewProduct : Product -> Html Msg
+viewProduct product =
+    div
+        [ class "product-card" ]
+        [ if product.isBestseller then
             div [ class "bestseller-badge" ] [ text "Bestseller" ]
-
           else
             text ""
-        , div [ class "product-image" ] []
+        , div [ class "product-image-container" ]
+            [ img 
+                [ class "product-image"
+                , src product.imageUrl
+                , alt product.name 
+                ] 
+                []
+            ]
         , div [ class "product-info" ]
-            [ h3 [ class "product-name" ] [ text name ]
-            , p [ class "product-price" ] [ text price ]
+            [ h3 [ class "product-name" ] [ text product.name ]
+            , p [ class "product-price" ] [ text product.price ]
             , div [ class "color-options" ]
                 [ div [ class "color-dot black" ] []
                 , div [ class "color-dot gray" ] []
                 , div [ class "color-dot brown" ] []
                 , div [ class "color-dot tan" ] []
                 ]
-            , p [ class "watch-type" ] [ text watchType ]
+            , p [ class "watch-type" ] [ text product.watchType ]
             ]
-        ]
-
-
-secondEditionCard : Model -> Html Msg
-secondEditionCard model =
-    div [ class "product-card" ]
-        [ div [ class "product-image" ] []
-        , div [ class "product-info" ]
-            [ h3 [ class "product-name" ] [ text "Watch Strap – Second Edition" ]
-            , p [ class "product-price" ] [ text "$59 – $99" ]
-            , div [ class "color-options" ]
-                [ div [ class "color-dot black" ] []
-                , div [ class "color-dot gray" ] []
-                , div [ class "color-dot brown" ] []
-                , div [ class "color-dot tan" ] []
-                ]
-            , p [ class "watch-type" ] [ text "Apple Watch" ]
-            ]
-        , if model.showingPopup then
-            div [ class "popup" ]
-                [ div [ class "popup-header" ]
-                    [ div [ class "close-button", onClick ClosePopup ] [ text "CLOSE ×" ]
-                    ]
-                , div [ class "popup-content" ]
-                    [ div [ class "popup-image-container" ]
-                        [ div [ class "popup-image" ] []
-                        , div [ class "popup-image" ] []
-                        ]
-                    ]
-                ]
-          else
-            text ""
         ]
 
 
@@ -181,5 +161,17 @@ subscriptions _ =
 
 
 
--- CSS (would typically be in a separate stylesheet)
--- You would add your CSS styling here or link to an external stylesheet
+
+-- HELPERS
+
+boolToString : Bool -> String
+boolToString bool =
+    if bool then
+        "true"
+    else
+        "false"
+
+
+defaultProduct : Product
+defaultProduct =
+    Product 0 "" "" "" False ""
