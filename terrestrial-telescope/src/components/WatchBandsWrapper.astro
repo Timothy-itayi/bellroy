@@ -1,0 +1,10 @@
+---
+// src/components/WatchBandsWrapper.astro
+---
+<div id="elm-app"></div>
+<script type="module">
+  import { Elm } from "./WatchBands.elm";
+  Elm.Components.WatchBands.init({
+    node: document.getElementById("elm-app")
+  });
+</script>
