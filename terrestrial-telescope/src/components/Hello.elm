@@ -1,0 +1,5 @@
+module Components.Hello exposing (main)
+
+import Html
+
+main = Html.text "Hello world"
