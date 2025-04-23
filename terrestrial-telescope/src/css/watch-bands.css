@@ -90,10 +90,10 @@
 
 .bestseller-badge {
     position: absolute;
-    top: 12px;
+    bottom: 190px;
     left: 12px;
-    background-color: #ff6b6b;
-    color: white;
+    background-color: white;
+    color: #ff6b6b;
     padding: 4px 12px;
     border-radius: 4px;
     font-size: 0.8rem;
