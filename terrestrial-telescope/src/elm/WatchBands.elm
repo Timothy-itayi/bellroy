@@ -1,14 +1,9 @@
 module WatchBands exposing (main)
 
-
-
-
 import Browser
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
-import Svg exposing (svg, path)
-import Svg.Attributes as SvgAttr
 
 
 -- MAIN
@@ -63,18 +58,6 @@ init _ =
                 , Color "Tan" "#BC7049FF" "/assets/Classic/1(3).avif"
                 ]
                 (Just (Color "Black" "#363636" "/assets/Classic/1(0).avif"))
-            , Product 2 "Venture Watch Strap" "$49 – $85" "Apple Watch" True 
-                [ Color "Black" "#1b1c1e" "/assets/Venture/0.avif"
-                , Color "Gray" "#e9e6decc" "/assets/Venture/0(1).avif"
-                , Color "Brown" "#5D736F" "/assets/Venture/0(2).avif"
-                , Color "Tan" "#EFEB87" "/assets/Venture/0(3).avif"
-                ]
-                (Just (Color "Black" "#363636" "/assets/Venture/0(1).avif"))
-            , Product 4 "Pixel Watch Strap – Google Edition" "$109" "Pixel Watch 3" False 
-                [ Color "Black" "#363636" "assets/Pixel_Watch/2(0).avif"
-                , Color "Brown" "#BC7049FF" "assets/Pixel_Watch/2(1).avif"
-                ]
-                (Just (Color "Black" "#363636" "assets/Pixel_Watch/2(0).avif"))
             ]
       }
     , Cmd.none
@@ -141,9 +124,7 @@ productGrid : Model -> Html Msg
 productGrid model =
     div [ class "product-grid" ]
         [ viewProduct (List.head model.products |> Maybe.withDefault defaultProduct)
-        , viewProduct (List.head (List.drop 1 model.products) |> Maybe.withDefault defaultProduct)
-        , freeShippingCard
-        , viewProduct (List.head (List.drop 2 model.products) |> Maybe.withDefault defaultProduct)
+        
         ]
 
 
@@ -169,9 +150,12 @@ viewProduct product =
             , div [ class "color-options" ]
                 (List.map (\color -> 
                     div 
-                        [ class "color-dot"
+                        [ classList 
+                            [ ("color-dot", True)
+                            , ("selected", Just color == product.selectedColor)
+                            ]
                         , style "background-color" color.value
-                        , style "border" ("2px solid " ++ color.value)
+                        , style "border-color" (if Just color == product.selectedColor then color.value else "transparent")
                         , onClick (SelectColor product.id color.name)
                         ] 
                         []
@@ -181,23 +165,32 @@ viewProduct product =
         ]
 
 
-freeShippingCard : Html Msg
+freeShippingCard : Html msg
 freeShippingCard =
     div [ class "shipping-card" ]
-        [ div []
-            [ svg
-                [ SvgAttr.class "fill-current w-auto max-w-full h-full stroke-0"
-                , SvgAttr.width "30"
-                , SvgAttr.height "21"
-                , SvgAttr.viewBox "0 0 30 21"
+        [ div [ class "shipping-icon" ]
+            [ node "svg"
+                [ attribute "viewBox" "0 0 30 21"
+                , attribute "fill" "none"
+                , attribute "xmlns" "http://www.w3.org/2000/svg"
                 ]
-                [ path
-                    [ SvgAttr.d "M20.9439045,5.87274617 L12.560598,12.0737616 L12.3506584,12.2954064 C12.3279849,12.3289889 12.3078307,12.3650902 12.289356,12.4020309 L10.5854866,16.7677608 L9.83390294,11.3374645 L20.9439045,5.87274617 Z M14.3921107,14.646184 L12.5219691,16.5561908 L13.4935694,14.0736017 L14.3921107,14.646184 Z M27.4637875,3.19285971 L22.5705162,17.8810219 L14.5886141,12.7193859 L27.4637875,3.19285971 Z M20.6928168,4.07524087 L8.8110774,9.92196058 L4.09667463,8.60216687 L20.6928168,4.07524087 Z M29.9881008,0.71278935 C29.9679466,0.617918682 29.9335165,0.527245832 29.865496,0.415583896 L29.6337228,0.171270939 C29.5631831,0.123415824 29.4867651,0.0847959061 29.3431664,0.0444968616 C29.2810243,0.0335825371 29.2180424,0.0319034102 29.1550606,0.0344221005 L29.0526101,0 L0.631832124,7.76092432 C0.408456432,7.82221245 0.223709618,7.96745692 0.110342256,8.16811258 C-0.00134559056,8.3696078 -0.0298973708,8.60132731 0.0322447391,8.82045336 C0.111182014,9.11010275 0.341275772,9.34014313 0.630992366,9.42074121 L8.12247564,11.5188102 L9.33928534,20.3182745 C9.34684316,20.3526966 9.35776002,20.3871187 9.37035639,20.4198617 L9.40142745,20.5122136 C9.4425756,20.6045656 9.4988394,20.688522 9.58449474,20.7766761 C9.65923323,20.848039 9.74656808,20.9051293 9.84230052,20.9462679 L9.9976558,20.9798505 C10.0152907,20.9840483 10.0337654,20.9882461 10.0522401,20.9916044 L10.1378954,21 L10.1790436,20.9991604 C10.2814941,20.9983209 10.3822651,20.9790109 10.5518962,20.907648 C10.5686914,20.8992524 10.5846468,20.8908568 10.6006022,20.8816216 L10.6669431,20.8816216 L15.874284,15.6083237 L22.5772343,19.9220006 C22.7728979,20.0428977 23.0038315,20.0798385 23.2297264,20.0277856 C23.4531021,19.9740535 23.6437272,19.8372047 23.7621331,19.6441051 C23.7957235,19.5912126 23.8234355,19.5332827 23.8469487,19.4669572 L29.9612285,1.1502019 L29.9922995,0.994882661 C30.0023766,0.921840643 30.0015369,0.847119498 29.9956586,0.796745692 L29.9881008,0.71278935 Z"
+                [ node "path"
+                    [ attribute "d" "M29.5 10.5C29.5 15.7467 25.2467 20 20 20C14.7533 20 10.5 15.7467 10.5 10.5C10.5 5.25329 14.7533 1 20 1C25.2467 1 29.5 5.25329 29.5 10.5Z"
+                    , attribute "stroke" "currentColor"
+                    ]
+                    []
+                , node "path"
+                    [ attribute "d" "M20 10.5H0.5M0.5 10.5L4.5 6.5M0.5 10.5L4.5 14.5"
+                    , attribute "stroke" "currentColor"
                     ]
                     []
                 ]
             ]
-        , p [ class "shipping-text" ] [ text "Free shipping available" ]
+        , p [ class "shipping-text" ]
+            [ text "Free shipping"
+            , br [] []
+            , text "worldwide"
+            ]
         ]
 
 
