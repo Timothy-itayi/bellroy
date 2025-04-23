@@ -49,7 +49,7 @@ type alias Model =
 
 init : () -> ( Model, Cmd Msg )
 init _ =
-    ( { sortOption = "Most popular"
+    ( { sortOption = ""
       , products =
             [ Product 1 "Classic Watch Strap" "$69 – $119" "Apple Watch" True 
                 [ Color "Black" "#363636" "/assets/Classic/1(2).avif"
@@ -112,11 +112,7 @@ header =
     div [ class "header" ]
         [ h1 [ class "title" ] [ text "Watch Bands" ]
         , p [ class "subtitle" ] [ text "These performance watch bands give your smart watch a pop of personality and a sleek look." ]
-        , div [ class "sort-container" ]
-            [ select [ class "sort-dropdown" ]
-                [ option [] [ text "Most popular" ]
-                ]
-            ]
+        
         ]
 
 
