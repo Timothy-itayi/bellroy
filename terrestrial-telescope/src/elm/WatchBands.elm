@@ -182,11 +182,7 @@ freeShippingCard =
                     []
                 ]
             ]
-        , p [ class "shipping-text" ]
-            [ text "Free shipping"
-            , br [] []
-            , text "worldwide"
-            ]
+        
         ]
 
 
