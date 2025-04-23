@@ -4,6 +4,10 @@ astro and elm
 
 This is a small, self-contained product card component built using [Elm](https://elm-lang.org/) and integrated into an [Astro](https://astro.build/) project.
 
+# To Run the Program with astro 
+npm install
+npm astro run dev
+
 ## 🎯 Goal
 
 Recreate a product card from [bellroy.com](https://bellroy.com), focusing on:
