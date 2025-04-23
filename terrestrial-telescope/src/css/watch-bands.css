@@ -42,14 +42,18 @@
 
 .product-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: 24px;
     margin-bottom: 48px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 @media (max-width: 1200px) {
     .product-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: 1fr;
+        max-width: 400px;
     }
 }
 
@@ -60,18 +64,20 @@
 }
 
 .product-card {
-    background: white;
-    border-radius: 8px;
+    background: #f5f5f5;
+    border-radius: 12px;
     overflow: hidden;
     position: relative;
-    cursor: pointer;
+    transition: transform 0.2s ease;
 }
+
 
 .product-image-container {
     position: relative;
     width: 100%;
-    padding-bottom: 100%; /* Creates a square aspect ratio */
+    padding-bottom: 100%;
     overflow: hidden;
+    background: #f5f5f5;
 }
 
 .product-image {
@@ -80,24 +86,25 @@
     left: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    display: block;
+    object-fit: contain;
+    padding: 32px;
 }
 
 .product-info {
-    padding: 16px;
+    padding: 20px;
 }
 
 .bestseller-badge {
     position: absolute;
-    bottom: 190px;
-    left: 12px;
+    top: 360px;
+    left: 16px;
     background-color: white;
     color: #ff6b6b;
-    padding: 4px 12px;
+    padding: 6px 12px;
     border-radius: 4px;
     font-size: 0.8rem;
     font-weight: 500;
+    z-index: 5;
 }
 
 .product-name {
@@ -115,43 +122,32 @@
 
 .color-options {
     display: flex;
-    gap: 12px;
+    gap: 8px;
     margin-bottom: 12px;
 }
 
-.color-button {
-    width: 20px;
-    height: 20px;
+.color-dot {
+    width: 24px;
+    height: 24px;
     border-radius: 50%;
     cursor: pointer;
-    transition: all 0.2s ease;
-    padding: 0;
-    margin: 0;
+    transition: transform 0.2s ease;
     border: 2px solid transparent;
-    outline: none;
-    appearance: none;
-    -webkit-appearance: none;
-    display: block;
-    background-clip: content-box;
 }
 
-.color-button:hover {
-    border-width: 3px;
+.color-dot.selected {
+    border: 2px solid #E5E5E5;
+    box-shadow: inset 0 0 0 2px white;
 }
 
-.color-button.selected {
-    border-width: 4px;
-    filter: brightness(0.95);
+.color-dot:hover {
+    transform: scale(1.1);
 }
-
-.color-dot.black { background-color: #000; }
-.color-dot.gray { background-color: #8c9196; }
-.color-dot.brown { background-color: #795548; }
-.color-dot.tan { background-color: #d2691e; }
 
 .watch-type {
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     color: #999;
+    margin: 0;
 }
 
 .shipping-card {
@@ -160,10 +156,10 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 24px;
-    border-radius: 8px;
+    padding: 32px;
+    border-radius: 12px;
     aspect-ratio: 1;
-    grid-column: 3;
+    grid-column: auto;
 }
 
 @media (max-width: 1200px) {
@@ -178,29 +174,10 @@
 .shipping-icon {
     margin-bottom: 16px;
     height: 32px;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-}
-
-.fill-current {
-    fill: currentColor;
-}
-
-.w-auto {
-    width: auto;
-}
-
-.max-w-full {
-    max-width: 100%;
-}
-
-.h-full {
-    height: 100%;
-}
-
-.stroke-0 {
-    stroke-width: 0;
+    color: #333;
 }
 
 .shipping-text {
@@ -208,6 +185,7 @@
     color: #333;
     text-align: center;
     margin: 0;
+    line-height: 1.4;
 }
 
 .recently-viewed-section {
@@ -289,7 +267,7 @@
     transition: opacity 0.2s ease;
     border: none;
     cursor: pointer;
-    z-index: 2;
+    z-index: 10;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
